@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CTF Game</title>
+</head>
+
+<style>
+    .center {
+        position: absolute; 
+        top: 50%; 
+        left: 50%; 
+        transform: translateX(-50%) translateY(-50%);
+        text-align: center;
+    }
+</style>
+
+<body>
+    <div class="center">
+       <h1>Flag Checker</h1>  
+       <input type="text" id="flag">
+       <button onclick="checkInput()">Check</button>
+    </div>
+</body>
+
+<script>
+    function checkInput() {
+      var inputValue = document.getElementById("flag").value;
+      console.log(inputValue)
+    
+      var flagAnswer = "Flag"; //แก้คำตอบตรงนี้
+
+      if (inputValue == flagAnswer) {
+        alert("Congratulations! You are correct.");
+      } else {
+        alert("Sorry, try again!");
+      }
+    }
+</script>
+
+</html>
