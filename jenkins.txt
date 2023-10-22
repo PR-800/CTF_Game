@@ -1,1 +1,33 @@
+pipeline {
+    agent any
 
+    stages {
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', changelog: false, poll: false, url: 'https://github.com/PR-800/CTF_Game.git'
+            }
+        }
+        stage('Sonar Analysis') {
+            steps {
+                sh '''
+                     sudo /root/sonar-scanner-4.2.0.1873-linux/bin/sonar-scanner -Dsonar.host.url=https://sonar-dev.polalab.site/ -Dsonar.login=sqp_cb1e07cc4a0360f9337579930e28c12c651fb879 -Dsonar.projectName=webapp \
+                    -Dsonar.sources=. \
+                    -Dsonar.projectKey=webapp
+                '''
+            }
+        }
+        stage('test docker') {
+            steps {
+                sh '''
+                    export MY_ENV="webapp"
+                    export ACCESS_WEB="--- https://ctf-dso-flag.polalab.site ---"
+                    export CTFCHECK_WEB="--- https://ctf-dso-checker.polalab.site ---"
+                    sudo docker build -t $MY_ENV .
+                    sudo docker run -it -d --name $MY_ENV -p 80:80 $MY_ENV
+                    echo Web Access $ACCESS_WEB
+                    echo Flage Check Access $CTFCHECK_WEB
+                '''
+            }
+        }
+    }
+}
