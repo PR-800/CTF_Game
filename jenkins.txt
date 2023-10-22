@@ -16,7 +16,7 @@ pipeline {
                 '''
             }
         }
-        stage('test docker') {
+        stage('Docker Deployment') {
             steps {
                 sh '''
                     export MY_ENV="webapp"
